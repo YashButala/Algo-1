@@ -1,25 +1,30 @@
 #include<stdio.h>
 int partition(int a[],int low,int high)
 {
-	int t,pivot=a[low],i,j;
-	i=low;
-	j=high;
-	while(i<j)
+	int t,t1=0,t2=0,pivot=a[low],i;
+	i=low+1;
+	int temp_low[high-low+1];
+	int temp_high[high-low+1];
+	while(i<=high)
 	{
-		while(a[i]<=pivot&i<=high)i++;
-		while(a[j]>pivot)j--;
-		if(i<j)
+		if(a[i]<pivot)
 		{
-			t=a[i];
-			a[i]=a[j];
-			a[j]=t;
-			j--;
+			temp_low[t1]=a[i];
+			t1++;
 		}
+		else
+		{
+			temp_high[t2]=a[i];
+			t2++;
+		}
+		i++;
 	}
-	t=a[j];
-	a[j]=pivot;
-	a[low]=t;
-	return j;
+	for(i=low;i<low+t1;i++)
+		a[i]=temp_low[i-low];
+	a[i]=pivot;
+	for(i=low+t1+1;i<=high;i++)
+		a[i]=temp_high[i-low-t1-1];		
+	return t1+low;
 }
 void quicksort(int a[],int low,int high)
 {
